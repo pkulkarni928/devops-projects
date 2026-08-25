@@ -31,3 +31,14 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t simple-cicd:${{ github.sha }} .
+      
+      - name: Run Docker container
+        run: docker run -d --name simple-cicd -p 5000:5000 simple-cicd:${{ github.sha }}
+
+      - name: Test running container
+        run: |
+          sleep 3
+          curl --fail http://localhost:5000
+
+      - name: Show running containers
+        run: docker ps
